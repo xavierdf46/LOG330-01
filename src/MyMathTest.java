@@ -5,31 +5,45 @@ import java.text.DecimalFormat;
 import org.junit.Test;
 
 public class MyMathTest {
-
+	
+	int[] valuesNorm = {186, 699, 132, 272, 291, 331, 199, 1890, 788, 1601};
+	int[] valuesMax = {Integer.MAX_VALUE, Integer.MAX_VALUE};
+	int[] valuesMin = {Integer.MIN_VALUE, Integer.MIN_VALUE};
+	int[] valuesError = {Integer.MAX_VALUE + 1, Integer.MAX_VALUE};
+	
 	@Test
-	public void averageTest() {
-		int[] values = {186, 699, 132, 272, 291, 331, 199, 1890, 788, 1601};
-		
-		assertTrue(MyMath.average(values) == 638.9);
-	}
-
-	@Test
-	public void varianceTest() {
-		int[] values = {186, 699, 132, 272, 291, 331, 199, 1890, 788, 1601};
-		
-		DecimalFormat decimal = new DecimalFormat("#.####");
-		double test = MyMath.variance(values);
-		
-		assertTrue("391417,8778".equals(decimal.format(test)));
+	public void averageLimitTest() {
+		assertFalse(MyMath.average(valuesError) == 2147483647.5);
+		assertTrue(MyMath.average(valuesMax) == (double)Integer.MAX_VALUE);
+		assertTrue(MyMath.average(valuesMin) == -(double)Integer.MAX_VALUE);
 	}
 	
 	@Test
-	public void standardDeviationTest() {
-		int[] values = {186, 699, 132, 272, 291, 331, 199, 1890, 788, 1601};
+	public void distanceSquaredLimitTest() {
+		assertTrue(MyMath.distanceSquared(0, valuesMax) ==
+				(Integer.MAX_VALUE - MyMath.average(valuesMax)) * (Integer.MAX_VALUE - MyMath.average(valuesMax)));
 		
-		DecimalFormat decimal = new DecimalFormat("#.##");
-		double test = MyMath.standardDeviation(values);
-		
-		assertTrue("625,63".equals(decimal.format(test)));
+		assertTrue(MyMath.distanceSquared(valuesMin.length - 1, valuesMin) ==
+				(-Integer.MAX_VALUE - MyMath.average(valuesMin)) * (-Integer.MAX_VALUE - MyMath.average(valuesMin)));
+	}
+	
+	@Test
+	public void sumOfDistancesLimitTest() {
+		assertTrue(MyMath.sumOfDistances(valuesMax) == 0);
+		assertTrue(MyMath.sumOfDistances(valuesMin) == 0);
+	}
+	
+	@Test
+	public void varianceLimitTest() {
+		assertFalse(MyMath.variance(valuesError) == 0.5);
+		assertTrue(MyMath.variance(valuesMax) == 0);
+		assertTrue(MyMath.variance(valuesMin) == 0);
+	}
+	
+	@Test
+	public void standardDeviationLimitTest() {
+		assertFalse(MyMath.standardDeviation(valuesError) == 0.25);
+		assertTrue(MyMath.standardDeviation(valuesMax) == 0);
+		assertTrue(MyMath.standardDeviation(valuesMin) == 0);
 	}
 }
