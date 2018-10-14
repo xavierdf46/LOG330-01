@@ -15,7 +15,7 @@ public class MyMathTest {
 	public void averageLimitTest() {
 		assertFalse(MyMath.average(valuesError) == 2147483647.5);
 		assertTrue(MyMath.average(valuesMax) == (double)Integer.MAX_VALUE);
-		assertTrue(MyMath.average(valuesMin) == -(double)Integer.MAX_VALUE);
+		assertTrue(MyMath.average(valuesMin) == (double)Integer.MIN_VALUE);
 	}
 	
 	@Test
@@ -24,7 +24,7 @@ public class MyMathTest {
 				(Integer.MAX_VALUE - MyMath.average(valuesMax)) * (Integer.MAX_VALUE - MyMath.average(valuesMax)));
 		
 		assertTrue(MyMath.distanceSquared(valuesMin.length - 1, valuesMin) ==
-				(-Integer.MAX_VALUE - MyMath.average(valuesMin)) * (-Integer.MAX_VALUE - MyMath.average(valuesMin)));
+				(Integer.MIN_VALUE - MyMath.average(valuesMin)) * (Integer.MIN_VALUE - MyMath.average(valuesMin)));
 	}
 	
 	@Test
